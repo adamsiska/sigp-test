@@ -10,3 +10,9 @@ export const fetchNextMovies = (searchTerm, page) => (
 export const addMovies = (res, page) => (
   { type: APP_ACTIONS.ADD_MOVIES, payload: { data: res.data.Search, page } }
 );
+export const setCurrentMovie = (id) => ({
+  type: APP_ACTIONS.SET_CURRENT_MOVIE,
+  payload: id,
+});
+export const setCurrentMovieFromServer = (movie) => ({
+  type: APP_ACTIONS.SET_FULL_CURRENT_MOVIE, payload: movie });

@@ -1,8 +1,11 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useState } from 'react';
 import { SearchIcon } from '@heroicons/react/solid';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchMovies, fetchNextMovies } from '../actions/specificActions/commonActions';
+import { Link } from 'react-router-dom';
+import { searchMovies, fetchNextMovies, setCurrentMovie } from '../actions/specificActions/commonActions';
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -88,7 +91,9 @@ export const Home = () => {
               <li
                 key={movie.imdbID}
                 className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200"
+                onClick={() => dispatch(setCurrentMovie(movie.imdbID))}
               >
+                <Link to={movie.imdbID}>
                 <div className="flex-1 flex flex-col p-8">
                   <img className="h-60 flex-shrink-0 mx-auto bg-black " src={movie.Poster} alt="movie" />
                   <h3 className="mt-6 text-gray-900 text-xl font-medium">{movie.Title}</h3>
@@ -101,6 +106,7 @@ export const Home = () => {
                     </dd>
                   </dl>
                 </div>
+                </Link>
               </li>
             )) : null}
           </ul>

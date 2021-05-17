@@ -1,4 +1,5 @@
-import { uniqBy } from 'ramda';
+/* eslint-disable complexity */
+import { uniqBy, filter } from 'ramda';
 import { APP_ACTIONS } from '../../actions/actionTypes';
 
 const initialState = {
@@ -19,6 +20,14 @@ export const appReducer = (state = initialState, action) => {
       const uniqueMovies = uniqBy((m) => m.imdbID, [...movies, ...data]);
       return { ...state, movies: uniqueMovies, currentPage: page };
     }
+    case APP_ACTIONS.SET_CURRENT_MOVIE: {
+      const { movies } = state;
+      const id = action.payload;
+      const selectedMovie = filter((m) => m.imdbID === id, movies)[0];
+      return { ...state, selectedMovie };
+    }
+    case APP_ACTIONS.SET_FULL_CURRENT_MOVIE:
+      return { ...state, selectedMovie: action.payload };
     default:
       return state;
   }
