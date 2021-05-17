@@ -6,7 +6,7 @@ import { searchMovies, fetchNextMovies } from '../actions/specificActions/common
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const [searchInput, setSearchInput] = useState('adam');
+  const [searchInput, setSearchInput] = useState('');
   const [fetchAnotherMovies, setFetchAnothertMovies] = useState(false);
   const { movies, currentPage } = useSelector((state) => state.app);
 
@@ -54,7 +54,7 @@ export const Home = () => {
                       value={searchInput}
                       className="h-full w-full border-transparent py-2 pl-8 pr-3 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400 sm:hidden"
                       placeholder="Search"
-                      type="search"
+                      type="Search movies"
                     />
                     <input
                       name="search"
@@ -63,7 +63,7 @@ export const Home = () => {
                       onChange={(e) => setSearchInput(e.target.value)}
                       value={searchInput}
                       className="hidden h-full w-full border-transparent py-2 pl-8 pr-3 text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400 sm:block"
-                      placeholder="Search films"
+                      placeholder="Search movies"
                       type="search"
                     />
                   </div>

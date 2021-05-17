@@ -10,7 +10,7 @@ const initialState = {
 export const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case APP_ACTIONS.SET_MOVIES: {
-      const uniqueMovies = uniqBy((m) => m.imdbID, action.payload);
+      const uniqueMovies = action.payload ? uniqBy((m) => m.imdbID, action.payload) : [];
       return { ...state, movies: uniqueMovies === undefined ? [] : uniqueMovies };
     }
     case APP_ACTIONS.ADD_MOVIES: {
