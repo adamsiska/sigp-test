@@ -8,8 +8,7 @@ const initialState = {
 export const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case APP_ACTIONS.SET_MOVIES:
-      console.log(action.payload);
-      return { ...state, movies: action.payload };
+      return { ...state, movies: action.payload === undefined ? [] : action.payload };
     default:
       return state;
   }

@@ -1,52 +1,21 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { SearchIcon, CalendarIcon, LocationMarkerIcon, UsersIcon } from '@heroicons/react/solid';
-import { useDispatch } from 'react-redux';
-import { searchMovie } from '../actions/specificActions/commonActions';
+import { SearchIcon } from '@heroicons/react/solid';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchMovies } from '../actions/specificActions/commonActions';
 
 export const Home = () => {
-  // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch();
-  const [searchInput, setSearchInput] = useState('22');
+  const [searchInput, setSearchInput] = useState('jack');
+  const { movies } = useSelector((state) => state.app);
 
-  const positions = [
-    {
-      id: 1,
-      title: 'Back End Developer',
-      type: 'Full-time',
-      location: 'Remote',
-      department: 'Engineering',
-      closeDate: '2020-01-07',
-      closeDateFull: 'January 7, 2020',
-    },
-    {
-      id: 2,
-      title: 'Front End Developer',
-      type: 'Full-time',
-      location: 'Remote',
-      department: 'Engineering',
-      closeDate: '2020-01-07',
-      closeDateFull: 'January 7, 2020',
-    },
-    {
-      id: 3,
-      title: 'User Interface Designer',
-      type: 'Full-time',
-      location: 'Remote',
-      department: 'Design',
-      closeDate: '2020-01-14',
-      closeDateFull: 'January 14, 2020',
-    },
-  ];
-
-  const handleSearch = () => dispatch(searchMovie(searchInput));
-  // console.log(searchInput);
-  const handleSearchEnterPress = (e) => (e.code === 13
+  const handleSearch = () => dispatch(searchMovies(searchInput));
+  const handleSearchEnterPress = (e) => (e.charCode === 13
     ? handleSearch()
-    : null
-  );
+    : null);
 
   return (
-    <div className="h-screen bg-white overflow-hidden flex">
+    <div className="h-screen bg-white  flex">
       {/* Content area */}
       <div className="flex-1 flex flex-col">
 
@@ -65,6 +34,7 @@ export const Home = () => {
                     <input
                       name="search"
                       id="search"
+                      onKeyPress={handleSearchEnterPress}
                       onChange={(e) => setSearchInput(e.target.value)}
                       value={searchInput}
                       className="h-full w-full border-transparent py-2 pl-8 pr-3 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400 sm:hidden"
@@ -74,6 +44,7 @@ export const Home = () => {
                     <input
                       name="search"
                       id="search"
+                      onKeyPress={handleSearchEnterPress}
                       onChange={(e) => setSearchInput(e.target.value)}
                       value={searchInput}
                       className="hidden h-full w-full border-transparent py-2 pl-8 pr-3 text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400 sm:block"
@@ -85,7 +56,6 @@ export const Home = () => {
               </div>
               <div className="ml-4 flex items-center md:ml-6">
               <button
-                onKeyPress={handleSearchEnterPress}
                 onClick={handleSearch}
                 type="button"
                 className="inline-flex items-center px-3.5 py-2 border border-transparent text-sm leading-4 font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -97,47 +67,28 @@ export const Home = () => {
           </div>
         </div>
 
-        <main className="flex-1 overflow-y-auto focus:outline-none">
-          <div className="bg-white shadow lg:m-28 lg:mt-14 overflow-hidden sm:rounded-md sm:mt-14">
-            <ul className="divide-y divide-gray-200">
-              {positions.map((position) => (
-                <li key={position.id}>
-                  <a href="/" className="block hover:bg-gray-50">
-                    <div className="px-4 py-4 sm:px-6">
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium text-indigo-600 truncate">{position.title}</p>
-                        <div className="ml-2 flex-shrink-0 flex">
-                          <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                            {position.type}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="mt-2 sm:flex sm:justify-between">
-                        <div className="sm:flex">
-                          <p className="flex items-center text-sm text-gray-500">
-                            <UsersIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-                            {position.department}
-                          </p>
-                          <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
-                            <LocationMarkerIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-                            {position.location}
-                          </p>
-                        </div>
-                        <div className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
-                          <CalendarIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-                          <p>
-                            Closing on
-                            {' '}
-                            <time dateTime={position.closeDate}>{position.closeDateFull}</time>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <main className="flex-1 focus:outline-none lg:mx-40">
+          <ul className="grid grid-cols-1 gap-6 md:grid-cols-3 sm:grid-cols-2 ">
+            {movies.map((movie) => (
+              <li
+                key={movie.imdbID}
+                className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200"
+              >
+                <div className="flex-1 flex flex-col p-8">
+                  <img className="h-60 flex-shrink-0 mx-auto bg-black " src={movie.Poster} alt="movie" />
+                  <h3 className="mt-6 text-gray-900 text-xl font-medium">{movie.Title}</h3>
+                  <dl className="mt-1 flex-grow flex flex-col justify-between">
+                    <dt className="sr-only">Year</dt>
+                    <dd className="mt-3">
+                      <span className="px-2 py-1 text-green-800 text-xl font-medium bg-green-100 rounded-full">
+                        {movie.Year}
+                      </span>
+                    </dd>
+                  </dl>
+                </div>
+              </li>
+            ))}
+          </ul>
         </main>
       </div>
     </div>

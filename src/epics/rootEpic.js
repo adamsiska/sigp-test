@@ -1,6 +1,6 @@
 import { combineEpics } from 'redux-observable';
-import { searchMovies } from './specificEpics/commonEpic';
+import { searchNewMovies } from './specificEpics/commonEpic';
 
 export default combineEpics(
-  searchMovies,
+  searchNewMovies,
 );
