@@ -1,15 +1,30 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SearchIcon } from '@heroicons/react/solid';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchMovies } from '../actions/specificActions/commonActions';
+import { searchMovies, fetchNextMovies } from '../actions/specificActions/commonActions';
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const [searchInput, setSearchInput] = useState('jack');
-  const { movies } = useSelector((state) => state.app);
+  const [searchInput, setSearchInput] = useState('adam');
+  const [fetchAnotherMovies, setFetchAnothertMovies] = useState(false);
+  const { movies, currentPage } = useSelector((state) => state.app);
 
-  const handleSearch = () => dispatch(searchMovies(searchInput));
+  useEffect(() => {
+    if (movies.length > 0) dispatch(fetchNextMovies(searchInput, currentPage + 1));
+  }, [fetchAnotherMovies]);
+
+  const handleSearch = useCallback(() => dispatch(searchMovies(searchInput)));
+
+  useEffect(() => {
+    const list = document.getElementById('list');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY + window.innerHeight === list.clientHeight + list.offsetTop) {
+        setFetchAnothertMovies(!fetchAnotherMovies);
+      }
+    });
+  }, [handleSearch]);
+
   const handleSearchEnterPress = (e) => (e.charCode === 13
     ? handleSearch()
     : null);
@@ -68,8 +83,8 @@ export const Home = () => {
         </div>
 
         <main className="flex-1 focus:outline-none lg:mx-40">
-          <ul className="grid grid-cols-1 gap-6 md:grid-cols-3 sm:grid-cols-2 ">
-            {movies.map((movie) => (
+          <ul id="list" className="grid grid-cols-1 gap-6 md:grid-cols-3 sm:grid-cols-2 ">
+            {movies.length > 0 ? movies.map((movie) => (
               <li
                 key={movie.imdbID}
                 className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200"
@@ -87,7 +102,7 @@ export const Home = () => {
                   </dl>
                 </div>
               </li>
-            ))}
+            )) : null}
           </ul>
         </main>
       </div>
