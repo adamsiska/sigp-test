@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SearchIcon, CalendarIcon, LocationMarkerIcon, UsersIcon } from '@heroicons/react/solid';
+import { useDispatch } from 'react-redux';
+import { searchMovie } from '../actions/specificActions/commonActions';
 
-export default function Home() {
+export const Home = () => {
+  // eslint-disable-next-line no-unused-vars
+  const dispatch = useDispatch();
+  const [searchInput, setSearchInput] = useState('22');
+
   const positions = [
     {
       id: 1,
@@ -32,6 +38,13 @@ export default function Home() {
     },
   ];
 
+  const handleSearch = () => dispatch(searchMovie(searchInput));
+  // console.log(searchInput);
+  const handleSearchEnterPress = (e) => (e.code === 13
+    ? handleSearch()
+    : null
+  );
+
   return (
     <div className="h-screen bg-white overflow-hidden flex">
       {/* Content area */}
@@ -50,15 +63,19 @@ export default function Home() {
                       <SearchIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                     </div>
                     <input
-                      name="search_field"
-                      id="search_field"
+                      name="search"
+                      id="search"
+                      onChange={(e) => setSearchInput(e.target.value)}
+                      value={searchInput}
                       className="h-full w-full border-transparent py-2 pl-8 pr-3 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400 sm:hidden"
                       placeholder="Search"
                       type="search"
                     />
                     <input
-                      name="search_field"
-                      id="search_field"
+                      name="search"
+                      id="search"
+                      onChange={(e) => setSearchInput(e.target.value)}
+                      value={searchInput}
                       className="hidden h-full w-full border-transparent py-2 pl-8 pr-3 text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400 sm:block"
                       placeholder="Search films"
                       type="search"
@@ -68,6 +85,8 @@ export default function Home() {
               </div>
               <div className="ml-4 flex items-center md:ml-6">
               <button
+                onKeyPress={handleSearchEnterPress}
+                onClick={handleSearch}
                 type="button"
                 className="inline-flex items-center px-3.5 py-2 border border-transparent text-sm leading-4 font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
@@ -123,4 +142,4 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};

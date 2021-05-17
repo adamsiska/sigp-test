@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Layout } from './layout';
 import Routes from './routes';
 
-function App() {
+export const App = () => {
   return (
     <Router>
       <Layout>
@@ -12,6 +12,4 @@ function App() {
       </Layout>
     </Router>
   );
-}
-
-export default App;
+};

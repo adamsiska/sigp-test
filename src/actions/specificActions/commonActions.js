@@ -1,4 +1,4 @@
 import { APP_ACTIONS } from '../actionTypes';
 
-export const laterValueAsync = () => ({ type: APP_ACTIONS.LATER_VALUE });
-export const laterValueSuccess = () => ({ type: APP_ACTIONS.LATER_VALUE_SUCCESS, payload: 'done' });
+export const searchMovie = () => ({ type: APP_ACTIONS.SEARCH_MOVIES });
+export const setMovies = (res) => ({ type: APP_ACTIONS.SET_MOVIES, payload: res.data.Search });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PaperClipIcon } from '@heroicons/react/solid';
 
-export default function MovieDetail() {
+export const MovieDetail = () => {
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-lg lg:m-20 lg:mx-36">
       <div className="px-4 py-5 sm:px-6">
@@ -59,4 +59,4 @@ export default function MovieDetail() {
       </div>
     </div>
   );
-}
+};
