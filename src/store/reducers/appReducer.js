@@ -6,6 +6,7 @@ const initialState = {
   movies: [],
   selectedMovie: {},
   currentPage: 1,
+  favoriteMovies: [],
 };
 
 export const appReducer = (state = initialState, action) => {
@@ -25,6 +26,31 @@ export const appReducer = (state = initialState, action) => {
       const id = action.payload;
       const selectedMovie = filter((m) => m.imdbID === id, movies)[0];
       return { ...state, selectedMovie };
+    }
+    case APP_ACTIONS.ADD_FAVORITE_MOVIE: {
+      const { favoriteMovies } = state;
+      const movie = action.payload;
+      const newFavoriteMovies = [...favoriteMovies, movie];
+
+      const favoriteMoviesJSON = JSON.stringify(newFavoriteMovies);
+      localStorage.setItem('favoriteMoviesSIGP', favoriteMoviesJSON);
+
+      return { ...state, favoriteMovies: newFavoriteMovies };
+    }
+    case APP_ACTIONS.REMOVE_FAVORITE_MOVIE: {
+      const { favoriteMovies } = state;
+      const id = action.payload;
+      const newFavoriteMovies = filter((m) => m.imdbID !== id, favoriteMovies);
+
+      const favoriteMoviesJSON = JSON.stringify(newFavoriteMovies);
+      localStorage.setItem('favoriteMoviesSIGP', favoriteMoviesJSON);
+
+      return { ...state, favoriteMovies: newFavoriteMovies };
+    }
+    case APP_ACTIONS.SET_FAVORITE_MOVIES: {
+      const favoriteMoviesSIGP = localStorage.getItem('favoriteMoviesSIGP');
+      const favoriteMovies = JSON.parse(favoriteMoviesSIGP);
+      return { ...state, favoriteMovies };
     }
     case APP_ACTIONS.SET_FULL_CURRENT_MOVIE:
       return { ...state, selectedMovie: action.payload };

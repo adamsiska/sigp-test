@@ -16,3 +16,12 @@ export const setCurrentMovie = (id) => ({
 });
 export const setCurrentMovieFromServer = (movie) => ({
   type: APP_ACTIONS.SET_FULL_CURRENT_MOVIE, payload: movie });
+
+export const setFavoriteMovies = () => ({
+  type: APP_ACTIONS.SET_FAVORITE_MOVIES });
+
+export const addFavoriteMovie = (movie) => ({
+  type: APP_ACTIONS.ADD_FAVORITE_MOVIE, payload: movie });
+
+export const removeFavoriteMovie = (id) => ({
+  type: APP_ACTIONS.REMOVE_FAVORITE_MOVIE, payload: id });
