@@ -10,12 +10,13 @@ export const Favorites = () => {
   const { favoriteMovies } = useSelector(state => state.app);
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const handleGoHomeClick = () => history.push('/');
   useEffect(() => {
     if (isEmpty(favoriteMovies)) dispatch(setFavoriteMovies());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleGoHomeClick = () => history.push('/');
+
   return (
     <div>
       <button

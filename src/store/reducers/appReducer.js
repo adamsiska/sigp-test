@@ -10,6 +10,11 @@ const initialState = {
   favoriteMovies: [],
 };
 
+const storeMovies = (movies) => {
+  const favoriteMoviesJSON = JSON.stringify(movies);
+  localStorage.setItem('favoriteMoviesSIGP', favoriteMoviesJSON);
+};
+
 export const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case APP_ACTIONS.SET_MOVIES: {
@@ -33,20 +38,14 @@ export const appReducer = (state = initialState, action) => {
       const { favoriteMovies } = state;
       const movie = action.payload;
       const newFavoriteMovies = [...favoriteMovies, movie];
-
-      const favoriteMoviesJSON = JSON.stringify(newFavoriteMovies);
-      localStorage.setItem('favoriteMoviesSIGP', favoriteMoviesJSON);
-
+      storeMovies(newFavoriteMovies);
       return { ...state, favoriteMovies: newFavoriteMovies };
     }
     case APP_ACTIONS.REMOVE_FAVORITE_MOVIE: {
       const { favoriteMovies } = state;
       const id = action.payload;
       const newFavoriteMovies = filter((m) => m.imdbID !== id, favoriteMovies);
-
-      const favoriteMoviesJSON = JSON.stringify(newFavoriteMovies);
-      localStorage.setItem('favoriteMoviesSIGP', favoriteMoviesJSON);
-
+      storeMovies(newFavoriteMovies);
       return { ...state, favoriteMovies: newFavoriteMovies };
     }
     case APP_ACTIONS.SET_FAVORITE_MOVIES: {

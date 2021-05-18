@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { SearchIcon } from '@heroicons/react/solid';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,19 +12,17 @@ export const Home = () => {
   const history = useHistory();
 
   const handleSearch = () => dispatch(searchMovies(searchInput));
-  const handleFavoritesClick = () => history.push('/favorites');
 
   useEffect(() => {
     const list = document.getElementById('list');
     window.addEventListener('scroll', () => {
       if (window.scrollY + window.innerHeight === list.clientHeight + list.offsetTop
-         && movies.length > 0) {
-        dispatch(fetchNextMovies(searchInput, currentPage + 1));
-      }
+        && movies.length > 0) dispatch(fetchNextMovies(searchInput, currentPage + 1));
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSearch]);
 
+  const handleFavoritesClick = () => history.push('/favorites');
   const handleSearchEnterPress = (e) => (e.charCode === 13
     ? handleSearch()
     : null);
@@ -33,7 +30,6 @@ export const Home = () => {
   return (
     <div className="h-screen bg-white  flex">
       <div className="flex-1 flex flex-col">
-
         <div className="w-full max-w-4xl mx-auto md:px-8 xl:px-0 mt-10">
           <div className="relative z-10 flex-shrink-0 h-16 bg-white border-b border-gray-200 flex">
             <div className="flex-1 flex justify-between px-4 md:px-0">
@@ -88,7 +84,6 @@ export const Home = () => {
             </div>
           </div>
         </div>
-
         <main className="flex-1 focus:outline-none lg:mx-40 mt-10">
           <ul id="list" className="grid grid-cols-1 gap-6 md:grid-cols-3 sm:grid-cols-2 ">
             {movies.length > 0 ? movies.map((movie) => (

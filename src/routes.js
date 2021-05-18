@@ -4,7 +4,7 @@ import { Favorites } from './pages/Favorites';
 import { Home } from './pages/Home';
 import { MovieDetail } from './pages/MovieDetail';
 
-const Routes = () => {
+export const Routes = () => {
   return (
   <Switch>
       <Route
@@ -27,5 +27,3 @@ const Routes = () => {
   </Switch>
   );
 };
-
-export default Routes;

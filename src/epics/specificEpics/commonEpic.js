@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { ofType } from 'redux-observable';
 import { catchError, debounceTime, map, mergeMap } from 'rxjs/operators';
 import axios from 'axios';
@@ -18,7 +17,7 @@ export const searchNewMovies = (action$) => action$.pipe(
   mergeMap(({ payload }) => from(fetchMovies(payload, '1'))
     .pipe(
       map(setMovies),
-      catchError((e) => of({ type: 'searchError' })),
+      catchError(of({ type: 'searchError' })),
     )),
 );
 
