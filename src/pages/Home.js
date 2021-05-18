@@ -4,14 +4,16 @@
 import React, { useEffect } from 'react';
 import { SearchIcon } from '@heroicons/react/solid';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { searchMovies, fetchNextMovies, setCurrentMovie, setSearchInput } from '../actions/specificActions/commonActions';
 
 export const Home = () => {
   const dispatch = useDispatch();
   const { movies, currentPage, searchInput } = useSelector((state) => state.app);
+  const history = useHistory();
 
   const handleSearch = () => dispatch(searchMovies(searchInput));
+  const handleFavoritesClick = () => history.push('/favorites');
 
   useEffect(() => {
     const list = document.getElementById('list');
@@ -21,6 +23,7 @@ export const Home = () => {
         dispatch(fetchNextMovies(searchInput, currentPage + 1));
       }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSearch]);
 
   const handleSearchEnterPress = (e) => (e.charCode === 13
@@ -34,8 +37,15 @@ export const Home = () => {
         <div className="w-full max-w-4xl mx-auto md:px-8 xl:px-0 mt-10">
           <div className="relative z-10 flex-shrink-0 h-16 bg-white border-b border-gray-200 flex">
             <div className="flex-1 flex justify-between px-4 md:px-0">
-              <div className="flex-1 flex">
-                <form className="w-full flex md:ml-0" action="#" method="GET">
+            <button
+              onClick={handleFavoritesClick}
+              type="button"
+              className="inline-flex items-center px-3.5 py-2 border border-transparent text-sm leading-4 font-medium shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Go to favorites
+            </button>
+              <div className="flex-1 flex ml-5">
+                <form className="w-full flex md:ml-0">
                   <label htmlFor="search_field" className="sr-only">
                     Search
                   </label>
@@ -79,7 +89,7 @@ export const Home = () => {
           </div>
         </div>
 
-        <main className="flex-1 focus:outline-none lg:mx-40">
+        <main className="flex-1 focus:outline-none lg:mx-40 mt-10">
           <ul id="list" className="grid grid-cols-1 gap-6 md:grid-cols-3 sm:grid-cols-2 ">
             {movies.length > 0 ? movies.map((movie) => (
               <li
