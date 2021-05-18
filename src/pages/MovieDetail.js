@@ -11,16 +11,12 @@ export const MovieDetail = () => {
   const history = useHistory();
   const [favorite, setFavorite] = useState(useSelector(isFavorite));
   const dispatch = useDispatch();
-  // const isFav = useSelector(isFavorite);
   useEffect(() => {
     if (isEmpty(favoriteMovies)) dispatch(setFavoriteMovies());
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isEmpty(selectedMovie)) history.push('/');
-
-  // useMemo(() => setFavorite(useSelector(isFavorite)), input);
-  // setFavorite(useSelector(isFavorite));
 
   const { Title, Genre, imdbID, Poster, Ratings } = selectedMovie;
   const arrayOfAttr = toPairs(omit(['Poster', 'Ratings', 'imdbID', 'Response'], selectedMovie));

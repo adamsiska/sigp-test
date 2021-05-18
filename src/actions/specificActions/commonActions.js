@@ -25,3 +25,7 @@ export const addFavoriteMovie = (movie) => ({
 
 export const removeFavoriteMovie = (id) => ({
   type: APP_ACTIONS.REMOVE_FAVORITE_MOVIE, payload: id });
+
+export const setSearchInput = (value) => ({
+  type: APP_ACTIONS.SET_SEARCH_INPUT,
+  payload: value });

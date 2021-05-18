@@ -1,29 +1,24 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-unused-vars */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { SearchIcon } from '@heroicons/react/solid';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { searchMovies, fetchNextMovies, setCurrentMovie } from '../actions/specificActions/commonActions';
+import { searchMovies, fetchNextMovies, setCurrentMovie, setSearchInput } from '../actions/specificActions/commonActions';
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const [searchInput, setSearchInput] = useState('');
-  const [fetchAnotherMovies, setFetchAnothertMovies] = useState(false);
-  const { movies, currentPage } = useSelector((state) => state.app);
+  const { movies, currentPage, searchInput } = useSelector((state) => state.app);
 
-  useEffect(() => {
-    if (movies.length > 0) dispatch(fetchNextMovies(searchInput, currentPage + 1));
-  }, [fetchAnotherMovies]);
-
-  const handleSearch = useCallback(() => dispatch(searchMovies(searchInput)));
+  const handleSearch = () => dispatch(searchMovies(searchInput));
 
   useEffect(() => {
     const list = document.getElementById('list');
     window.addEventListener('scroll', () => {
-      if (window.scrollY + window.innerHeight === list.clientHeight + list.offsetTop) {
-        setFetchAnothertMovies(!fetchAnotherMovies);
+      if (window.scrollY + window.innerHeight === list.clientHeight + list.offsetTop
+         && movies.length > 0) {
+        dispatch(fetchNextMovies(searchInput, currentPage + 1));
       }
     });
   }, [handleSearch]);
@@ -34,7 +29,6 @@ export const Home = () => {
 
   return (
     <div className="h-screen bg-white  flex">
-      {/* Content area */}
       <div className="flex-1 flex flex-col">
 
         <div className="w-full max-w-4xl mx-auto md:px-8 xl:px-0 mt-10">
@@ -53,7 +47,7 @@ export const Home = () => {
                       name="search"
                       id="search"
                       onKeyPress={handleSearchEnterPress}
-                      onChange={(e) => setSearchInput(e.target.value)}
+                      onChange={(e) => dispatch(setSearchInput(e.target.value))}
                       value={searchInput}
                       className="h-full w-full border-transparent py-2 pl-8 pr-3 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400 sm:hidden"
                       placeholder="Search"
@@ -63,7 +57,7 @@ export const Home = () => {
                       name="search"
                       id="search"
                       onKeyPress={handleSearchEnterPress}
-                      onChange={(e) => setSearchInput(e.target.value)}
+                      onChange={(e) => dispatch(setSearchInput(e.target.value))}
                       value={searchInput}
                       className="hidden h-full w-full border-transparent py-2 pl-8 pr-3 text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400 sm:block"
                       placeholder="Search movies"
@@ -90,11 +84,11 @@ export const Home = () => {
             {movies.length > 0 ? movies.map((movie) => (
               <li
                 key={movie.imdbID}
-                className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200"
+                className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200 hover:bg-gray-100"
                 onClick={() => dispatch(setCurrentMovie(movie.imdbID))}
               >
                 <Link to={movie.imdbID}>
-                <div className="flex-1 flex flex-col p-8">
+                <div className="flex-1 flex flex-col p-8 ">
                   <img className="h-60 flex-shrink-0 mx-auto bg-black " src={movie.Poster} alt="movie" />
                   <h3 className="mt-6 text-gray-900 text-xl font-medium">{movie.Title}</h3>
                   <dl className="mt-1 flex-grow flex flex-col justify-between">

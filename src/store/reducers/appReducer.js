@@ -4,6 +4,7 @@ import { APP_ACTIONS } from '../../actions/actionTypes';
 
 const initialState = {
   movies: [],
+  searchInput: '',
   selectedMovie: {},
   currentPage: 1,
   favoriteMovies: [],
@@ -16,8 +17,9 @@ export const appReducer = (state = initialState, action) => {
       return { ...state, movies: uniqueMovies === undefined ? [] : uniqueMovies };
     }
     case APP_ACTIONS.ADD_MOVIES: {
-      const { movies } = state;
       const { data, page } = action.payload;
+      if (data === undefined) return state;
+      const { movies } = state;
       const uniqueMovies = uniqBy((m) => m.imdbID, [...movies, ...data]);
       return { ...state, movies: uniqueMovies, currentPage: page };
     }
@@ -54,6 +56,8 @@ export const appReducer = (state = initialState, action) => {
     }
     case APP_ACTIONS.SET_FULL_CURRENT_MOVIE:
       return { ...state, selectedMovie: action.payload };
+    case APP_ACTIONS.SET_SEARCH_INPUT:
+      return { ...state, searchInput: action.payload };
     default:
       return state;
   }
