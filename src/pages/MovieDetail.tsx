@@ -49,7 +49,7 @@ export const MovieDetail = () => {
             <svg
               onClick={handleFavoriteClick}
               xmlns="http://www.w3.org/2000/svg"
-              className={`h-6 w-6 cursor-pointer hover:text-yellow-400 ${favorite ? 'text-yellow-400' : 'text-gray-500'} ml-4`}
+              className={`h-6 w-6 cursor-pointer  ${favorite ? 'text-yellow-400' : 'text-gray-500'} ml-4`}
               viewBox="0 0 20 20"
               fill="currentColor"
             >
