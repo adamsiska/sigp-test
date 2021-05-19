@@ -13,15 +13,6 @@ export const Home = () => {
 
   const handleSearch = () => dispatch(searchMovies(searchInput));
 
-  // useEffect(() => {
-  //   const list = document.getElementById('list');
-  //   window.addEventListener('scroll', () => {
-  //     if (window.scrollY + window.innerHeight === list?.clientHeight + list?.offsetTop
-  //       && movies.length > 0) dispatch(fetchNextMovies(searchInput, currentPage + 1));
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [handleSearch]);
-
   const handleFavoritesClick = () => history.push('/favorites');
   const handleSearchEnterPress = (e:React.KeyboardEvent<HTMLInputElement>) => (e.key === 'Enter'
     ? handleSearch()
@@ -89,7 +80,7 @@ export const Home = () => {
           </div>
         </div>
         <InfiniteScroll
-          pageStart={0}
+          pageStart={currentPage}
           loadMore={() => dispatch(fetchNextMovies(searchInput, currentPage + 1))}
           hasMore
         >

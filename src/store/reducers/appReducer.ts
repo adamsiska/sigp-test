@@ -64,7 +64,9 @@ export const appReducer = (state = initialState, action: IReducerAction) => {
     case APP_ACTIONS.SET_FULL_CURRENT_MOVIE:
       return { ...state, selectedMovie: action.payload };
     case APP_ACTIONS.SET_SEARCH_INPUT:
-      return { ...state, searchInput: action.payload };
+      return { ...state, searchInput: action.payload, currentPage: 0 };
+    case APP_ACTIONS.SEARCH_MOVIES:
+      return { ...state, currentPage: 1 };
     default:
       return state;
   }
