@@ -1,29 +1,29 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { SearchIcon } from '@heroicons/react/solid';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import { searchMovies, fetchNextMovies, setCurrentMovie, setSearchInput } from '../actions/specificActions/commonActions';
+import { useHistory } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroller';
+import { searchMovies, fetchNextMovies, setSearchInput } from '../actions/specificActions/commonActions';
+import { MovieList } from '../components/MovieList';
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const { movies, currentPage, searchInput } = useSelector((state) => state.app);
+  const { movies, currentPage, searchInput } = useSelector((state:IReducers) => state.app);
   const history = useHistory();
 
   const handleSearch = () => dispatch(searchMovies(searchInput));
 
-  useEffect(() => {
-    const list = document.getElementById('list');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY + window.innerHeight === list.clientHeight + list.offsetTop
-        && movies.length > 0) dispatch(fetchNextMovies(searchInput, currentPage + 1));
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handleSearch]);
+  // useEffect(() => {
+  //   const list = document.getElementById('list');
+  //   window.addEventListener('scroll', () => {
+  //     if (window.scrollY + window.innerHeight === list?.clientHeight + list?.offsetTop
+  //       && movies.length > 0) dispatch(fetchNextMovies(searchInput, currentPage + 1));
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [handleSearch]);
 
   const handleFavoritesClick = () => history.push('/favorites');
-  const handleSearchEnterPress = (e) => (e.charCode === 13
+  const handleSearchEnterPress = (e:React.KeyboardEvent<HTMLInputElement>) => (e.key === 'Enter'
     ? handleSearch()
     : null);
 
@@ -53,7 +53,9 @@ export const Home = () => {
                       name="search"
                       id="search"
                       onKeyPress={handleSearchEnterPress}
-                      onChange={(e) => dispatch(setSearchInput(e.target.value))}
+                      onChange={(e:React.ChangeEvent<HTMLInputElement>) => dispatch(
+                        setSearchInput(e.target.value),
+                      )}
                       value={searchInput}
                       className="h-full w-full border-transparent py-2 pl-8 pr-3 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400 sm:hidden"
                       placeholder="Search"
@@ -63,7 +65,9 @@ export const Home = () => {
                       name="search"
                       id="search"
                       onKeyPress={handleSearchEnterPress}
-                      onChange={(e) => dispatch(setSearchInput(e.target.value))}
+                      onChange={(e:React.ChangeEvent<HTMLInputElement>) => dispatch(
+                        setSearchInput(e.target.value),
+                      )}
                       value={searchInput}
                       className="hidden h-full w-full border-transparent py-2 pl-8 pr-3 text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0 focus:border-transparent focus:placeholder-gray-400 sm:block"
                       placeholder="Search movies"
@@ -84,32 +88,13 @@ export const Home = () => {
             </div>
           </div>
         </div>
-        <main className="flex-1 focus:outline-none lg:mx-40 mt-10">
-          <ul id="list" className="grid grid-cols-1 gap-6 md:grid-cols-3 sm:grid-cols-2 ">
-            {movies.length > 0 ? movies.map((movie) => (
-              <li
-                key={movie.imdbID}
-                className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200 hover:bg-gray-100"
-                onClick={() => dispatch(setCurrentMovie(movie.imdbID))}
-              >
-                <Link to={movie.imdbID}>
-                <div className="flex-1 flex flex-col p-8 ">
-                  <img className="h-60 flex-shrink-0 mx-auto bg-black " src={movie.Poster} alt="movie" />
-                  <h3 className="mt-6 text-gray-900 text-xl font-medium">{movie.Title}</h3>
-                  <dl className="mt-1 flex-grow flex flex-col justify-between">
-                    <dt className="sr-only">Year</dt>
-                    <dd className="mt-3">
-                      <span className="px-2 py-1 text-green-800 text-xl font-medium bg-green-100 rounded-full">
-                        {movie.Year}
-                      </span>
-                    </dd>
-                  </dl>
-                </div>
-                </Link>
-              </li>
-            )) : null}
-          </ul>
-        </main>
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={() => dispatch(fetchNextMovies(searchInput, currentPage + 1))}
+          hasMore
+        >
+          <MovieList movies={movies} />
+        </InfiniteScroll>
       </div>
     </div>
   );

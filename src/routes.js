@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Favorites } from './pages/Favorites';
-import { Home } from './pages/Home';
+import { Favorites } from './pages/Favorites.tsx';
+import { Home } from './pages/Home.tsx';
 import { MovieDetail } from './pages/MovieDetail';
 
 export const Routes = () => {

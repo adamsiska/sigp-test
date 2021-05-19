@@ -6,10 +6,11 @@ import { addFavoriteMovie, removeFavoriteMovie, setFavoriteMovies } from '../act
 import { isFavorite } from '../store/selectors';
 
 export const MovieDetail = () => {
-  const { selectedMovie, favoriteMovies } = useSelector(state => state.app);
+  const { selectedMovie, favoriteMovies } = useSelector((state:IReducers) => state.app);
   const history = useHistory();
   const [favorite, setFavorite] = useState(useSelector(isFavorite));
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (isEmpty(favoriteMovies)) dispatch(setFavoriteMovies());
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -20,13 +21,13 @@ export const MovieDetail = () => {
   const { Title, Genre, imdbID, Poster, Ratings } = selectedMovie;
   const arrayOfAttr = toPairs(omit(['Poster', 'Ratings', 'imdbID', 'Response'], selectedMovie));
 
-  const descriptions = (attr, index) => {
+  const descriptions = (attr: Array<string>, index: number) => {
     const color = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
-    return attr[1] === 'N/A' ? null : (
-    <div key={index} className={`${color} px-2 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-4`}>
-      <dt className="text-sm font-medium text-gray-500">{attr[0]}</dt>
-      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attr[1]}</dd>
-    </div>
+    return (attr[1] === 'N/A') ? null : (
+        <div key={index} className={`${color} px-2 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-4`}>
+          <dt className="text-sm font-medium text-gray-500">{attr[0]}</dt>
+          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{attr[1]}</dd>
+        </div>
     );
   };
 

@@ -14,7 +14,7 @@ module.exports = {
     },
   },
   rules: {
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
     'arrow-body-style': 0,
     'arrow-parens': 0,
     'no-underscore-dangle': 0,

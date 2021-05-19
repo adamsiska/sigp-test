@@ -12,7 +12,8 @@ const middlewares = [
 ];
 
 const composeEnhancers = typeof window === 'object'
-  && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+// @ts-ignore
+  && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ // @ts-ignore
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
   : compose;
 
@@ -20,4 +21,4 @@ const enhancers = composeEnhancers(applyMiddleware(...middlewares));
 
 const store = createStore(reducers, initialState, enhancers);
 epicMiddleware.run(rootEpic);
-export { store };
+export default store;
